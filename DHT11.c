@@ -21,12 +21,12 @@ unsigned char RH_H,RH_L,T_H,T_L,Sumcheck=0,TEMP,succ=0,ncount=0;
 //extern unsigned char du[];
 
 /****************************************************************************
-* Ãû    ³Æ£ºunsigned char Read_DAT(void)
-* ¹¦    ÄÜ£ºDHT11¶ÁÊı¾İ
-* Èë¿Ú²ÎÊı£ºÎŞ
-* ³ö¿Ú²ÎÊı£º·µ»Ø8Î»µÄÊı¾İ
-* Ëµ    Ã÷£º
-* µ÷ÓÃ·½·¨£ºÎŞ 
+* å    ç§°ï¼šunsigned char Read_DAT(void)
+* åŠŸ    èƒ½ï¼šDHT11è¯»æ•°æ®
+* å…¥å£å‚æ•°ï¼šæ— 
+* å‡ºå£å‚æ•°ï¼šè¿”å›8ä½çš„æ•°æ®
+* è¯´    æ˜ï¼š
+* è°ƒç”¨æ–¹æ³•ï¼šæ—  
 ****************************************************************************/ 
 unsigned char Read_DAT(void)
 {
@@ -34,62 +34,62 @@ unsigned char Read_DAT(void)
    while(i<8)
 	 {
 			ncount=0;
-			while(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_8)==0&&ncount<254);	      //1bit ¿ªÊ¼
+			while(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_8)==0&&ncount<254);	      //1bit å¼€å§‹
 			ncount=0;
 			temp=temp<<1;
-			while(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_8)==1&&ncount<254);		  //¶ÁÈ¡ÓĞĞ§µÄ1bit
-			if(ncount<30) temp=temp&0xfe;							              //26-28us ´ú±í¶ÁÈ¡Î»Îª0
-			else temp=temp|0x01;									              //70us ´ú±í¶ÁÈ¡Î»Îª1 
+			while(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_8)==1&&ncount<254);		  //è¯»å–æœ‰æ•ˆçš„1bit
+			if(ncount<30) temp=temp&0xfe;					 //26-28us ä»£è¡¨è¯»å–ä½ä¸º0
+			else temp=temp|0x01;					//70us ä»£è¡¨è¯»å–ä½ä¸º1 
 			i++;
    }	  
    return(temp);	
 }
 /****************************************************************************
-* Ãû    ³Æ£ºvoid Read_RT(void)
-* ¹¦    ÄÜ£º¶ÁÊª¶ÈºÍ¶ÁÎÂ¶È
-* Èë¿Ú²ÎÊı£ºÎŞ
-* ³ö¿Ú²ÎÊı£ºÎŞ
-* Ëµ    Ã÷£º
-* µ÷ÓÃ·½·¨£ºÎŞ 
+* å    ç§°ï¼švoid Read_RT(void)
+* åŠŸ    èƒ½ï¼šè¯»æ¹¿åº¦å’Œè¯»æ¸©åº¦
+* å…¥å£å‚æ•°ï¼šæ— 
+* å‡ºå£å‚æ•°ï¼šæ— 
+* è¯´    æ˜ï¼š
+* è°ƒç”¨æ–¹æ³•ï¼šæ—  
 ****************************************************************************/ 
 void Read_RT(void)
 {
    unsigned char tp=0;			
    GPIO_InitTypeDef GPIO_InitStructure;	  
    Delay_us(100);	
-   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;				     //PA8ÅäÖÃÎªÍ¨ÓÃÍÆÍìÊä³ö  
+   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;				     //PA8é…ç½®ä¸ºé€šç”¨æ¨æŒ½è¾“å‡º  
    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;			 //¿ÚÏß·­×ªËÙ¶ÈÎª50MHz
+   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;			 //å£çº¿ç¿»è½¬é€Ÿåº¦ä¸º50MHz
    GPIO_Init(GPIOA, &GPIO_InitStructure);	
    GPIO_SetBits(GPIOA, GPIO_Pin_8);	
-   Delay_us(1000000);												//ÑÓÊ±1Ãë
+   Delay_us(1000000);						//å»¶æ—¶1ç§’
    GPIO_ResetBits(GPIOA, GPIO_Pin_8);		
-   Delay_us(20000);												 //ÑÓÊ±20ms
+   Delay_us(20000);						 //å»¶æ—¶20ms
    GPIO_SetBits(GPIOA, GPIO_Pin_8);	
-   Delay_us(25);	  												 //ÑÓÊ±25us
-   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;				     //PA8ÅäÖÃÎª¸¡¿ÕÊäÈë  
+   Delay_us(25);	  					 //å»¶æ—¶25us
+   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;				 //PA8é…ç½®ä¸ºæµ®ç©ºè¾“å…¥  
    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;			 //¿ÚÏß·­×ªËÙ¶ÈÎª50MHz
+   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		//å£çº¿ç¿»è½¬é€Ÿåº¦ä¸º50MHz
    GPIO_Init(GPIOA, &GPIO_InitStructure);
    Delay_us(30);
    if(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_8)==0)
-	 {				 //ÅĞ¶ÏÊÇ·ñ³öÏÖµÍ80usÏìÓ¦
+	 {				 //åˆ¤æ–­æ˜¯å¦å‡ºç°ä½80uså“åº”
       ncount=0;
-   	  while(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_8)==0&&ncount<254);   //µÍ80ucÏìÓ¦
+   	  while(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_8)==0&&ncount<254);   //ä½80ucå“åº”
 			ncount=0;
-			while(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_8)==1&&ncount<254);	  //¸ß80usÏìÓ¦
-			RH_H=Read_DAT();											 //¶ÁÊª¶ÈÕûÊı²¿·Ö
-			RH_L=Read_DAT();											 //¶ÁÊª¶ÈĞ¡Êı²¿·Ö
-			T_H=Read_DAT();											 //¶ÁÎÂ¶ÈÕûÊı²¿·Ö
-			T_L=Read_DAT();											 //¶ÁÎÂ¶ÈĞ¡Êı²¿·Ö
-			Sumcheck=Read_DAT();										 //¶ÁĞ£ÑéºÍ
-			tp=RH_H+RH_L+T_H+T_L; 									 //¼ÆËãĞ£ÑéºÍ
-			if(tp==Sumcheck) succ=1;									 //¶ÁÈ¡³É¹¦
-			else succ=0;												 //¶ÁÈ¡Ê§°Ü
+			while(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_8)==1&&ncount<254);	  //é«˜80uså“åº”
+			RH_H=Read_DAT();					//è¯»æ¹¿åº¦æ•´æ•°éƒ¨åˆ†
+			RH_L=Read_DAT();					//è¯»æ¹¿åº¦å°æ•°éƒ¨åˆ†
+			T_H=Read_DAT();						 //è¯»æ¸©åº¦æ•´æ•°éƒ¨åˆ†
+			T_L=Read_DAT();						 //è¯»æ¸©åº¦å°æ•°éƒ¨åˆ†
+			Sumcheck=Read_DAT();					//è¯»æ ¡éªŒå’Œ
+			tp=RH_H+RH_L+T_H+T_L; 					 //è®¡ç®—æ ¡éªŒå’Œ
+			if(tp==Sumcheck) succ=1;			//è¯»å–æˆåŠŸ
+			else succ=0;					 //è¯»å–å¤±è´¥
 			ncount=0;
    }
-   else succ=0;	   												 //¶ÁÈ¡Ê§°Ü
-   //if(succ==1) GPIO_SetBits(GPIOB, GPIO_Pin_5);	                 //LED1 ÁÁ 
-   //else GPIO_ResetBits(GPIOB, GPIO_Pin_5);	                     //LED1Ãğ
+   else succ=0;	   							 //è¯»å–å¤±è´¥
+   //if(succ==1) GPIO_SetBits(GPIOB, GPIO_Pin_5);	                 //LED1 äº® 
+   //else GPIO_ResetBits(GPIOB, GPIO_Pin_5);	                     //LED1ç­
 }
 /****************************************************************************/
