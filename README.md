@@ -1,2 +1,0 @@
-# mygit2
-mini
